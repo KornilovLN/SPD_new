@@ -1,0 +1,89 @@
+<h2 id="редактирование-interfaces">Редактирование interfaces</h2>
+<ul>
+<li><a href="instruction_setup.html">Инструкция по установке</a></li>
+<li><a href="Home.html">Назад к оглавлению</a></li>
+</ul>
+<p>Настройка файла, содержащего настройки сетевых интерфейсов сохраняется в файле /etc/network/interfaces. <br>Для редактирования файла необходимы root-права. <br>В строке терминала ввести следующее: <br>Для редактирования файла необходимы root-права.</p>
+<p><br>В строке терминала ввести следующее:</p>
+<pre><code>&gt;su –
+&gt;[ввести пароль пользователя root]
+&gt;nano /etc/network/interfaces</code></pre>
+<p>В текстовом редакторе заменить источники на следующие (в зависимости от сервера):</p>
+<pre><code>127.0.0.1
+localhost
+#--------------------------------------------------------------
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+source /etc/network/interfaces.d/*
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+auto enp2s0f0
+iface enp2s0f0 inet static
+#address 192.168.201.211 //убрать знак “#” для сервера srs11
+#address 192.168.201.212 //убрать знак “#” для сервера srs12
+#address 192.168.201.221 //убрать знак “#” для сервера srs21
+#address 192.168.201.222 //убрать знак “#” для сервера srs22
+
+    network 192.168.201.0
+
+auto enp2s0f0:1
+iface enp2s0f0:1 inet static
+#address 192.168.201.211 //убрать знак “#” для сервера srs11
+#address 192.168.201.212 //убрать знак “#” для сервера srs12
+#address 192.168.201.221 //убрать знак “#” для сервера srs21
+#address 192.168.201.222 //убрать знак “#” для сервера srs22
+
+    network 192.168.1.0
+
+#allow-hotplug enp2s0f1
+auto enp2s0f1
+iface enp2s0f1 inet static
+#address 192.168.201.211 //убрать знак “#” для сервера srs11
+#address 192.168.201.212 //убрать знак “#” для сервера srs12
+#address 192.168.201.221 //убрать знак “#” для сервера srs21
+#address 192.168.201.222 //убрать знак “#” для сервера srs22
+
+    network 192.168.202.0
+
+auto enp2s0f1:1
+iface enp2s0f1:1 inet static
+#address 172.22.20.81/24 //убрать знак “#” для сервера srs11
+#address 172.22.20.82/24 //убрать знак “#” для сервера srs12
+#address 172.22.20.83/24 //убрать знак “#” для сервера srs21
+#address 172.22.20.84/24 //убрать знак “#” для сервера srs22
+
+    network 172.22.20.0
+
+up route add -net 10.101.64.0/24 gw 172.22.20.169 dev enp2s0f1:1
+up route add -net 172.23.0.0/16 gw 172.22.20.169 dev enp2s0f1:1
+up route add -net 172.24.0.0/16 gw 172.22.20.169 dev enp2s0f1:1
+up route add -net 172.25.0.0/16 gw 172.22.20.169 dev enp2s0f1:1
+
+auto enp2s0f1:2
+iface enp2s0f1:2 inet static
+#address 192.168.201.211 //убрать знак “#” для сервера srs11
+#address 192.168.201.212 //убрать знак “#” для сервера srs12
+#address 192.168.201.221 //убрать знак “#” для сервера srs21
+#address 192.168.201.222 //убрать знак “#” для сервера srs22
+
+    network 192.168.2.0
+
+auto enp3s0f1
+iface enp3s0f1 inet static
+#address 10.0.0.171 //убрать знак “#” для сервера srs11
+#address 10.0.0.172 //убрать знак “#” для сервера srs12
+#address 10.0.0.173 //убрать знак “#” для сервера srs21
+#address 10.0.0.174 //убрать знак “#” для сервера srs22
+
+    network 10.0.0.0
+
+netmask 255.255.255.0
+broadcast 10.0.0.255</code></pre>
+<p>Сохранить файл с изменениями.</p>
+<ul>
+<li><a href="instruction_setup.html">Инструкция по установке</a></li>
+<li><a href="Home.html">Назад к оглавлению</a></li>
+</ul>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Редактирование системных репозиториев</title>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+
+<h2 id="редактирование-системных-репозиториев">Редактирование системных репозиториев</h2>
+
+<ul>
+<li><a href="instruction_setup.html">Инструкция по установке</a></li>
+<li><a href="Home.html">Назад к оглавлению</a></li>
+</ul>
+
+<p>Настройка системных репозиториев инструментария пакетов (APT) сохраняется в файле /etc/apt/sources.list. Для редактирования файла необходимы root-права.</p>
+<p>В строке терминала ввести следующее:</p>
+
+<pre><code>&gt;su –
+&gt;[ввести пароль пользователя root]
+&gt;nano /etc/apt/sourses.list
+</code></pre>
+
+<p>В текстовом редакторе заменить источники на следующие:</p>
+
+<pre><code>deb [trusted=yes] ftp://172.22.20.227/debian-9.9-amd64/d01/ stretch main contrib
+deb [trusted=yes] ftp://172.22.20.227/debian-9.9-amd64/d02/ stretch main contrib
+deb [trusted=yes] ftp://172.22.20.227/debian-9.9-amd64/d03/ stretch main contrib
+deb [trusted=yes] ftp://172.22.20.227/debian-9.9-amd64/d04/ stretch main contrib
+deb [trusted=yes] ftp://172.22.20.227/debian-9.9-amd64/d05/ stretch main contrib
+deb [trusted=yes] ftp://172.22.20.227/debian-9.9-amd64/d06/ stretch main contrib
+deb [trusted=yes] ftp://172.22.20.227/debian-9.9-amd64/d07/ stretch main contrib
+deb [trusted=yes] ftp://172.22.20.227/debian-9.9-amd64/d08/ stretch main contrib
+deb [trusted=yes] ftp://172.22.20.227/debian-9.9-amd64/d09/ stretch main contrib
+deb [trusted=yes] ftp://172.22.20.227/debian-9.9-amd64/d10/ stretch main contrib
+deb [trusted=yes] ftp://172.22.20.227/debian-9.9-amd64/d11/ stretch main contrib
+deb [trusted=yes] ftp://172.22.20.227/debian-9.9-amd64/d12/ stretch main contrib
+deb [trusted=yes] ftp://172.22.20.227/debian-9.9-amd64/d13/ stretch main contrib
+deb [trusted=yes] ftp://172.22.20.227/debian-9.9-amd64/d14/ stretch main contrib
+</code></pre>
+
+<p>Сохранить файл с изменениями, в терминале выполнить с следующие команды:</p>
+
+<pre><code>&gt;apt update
+&gt;apt upgrade
+</code></pre>
+
+<p>Вышеописанные команды выполняют обновление имеющихся пакетов, обновления индекса списка пакетов с репозитория. <br>В данном случае репозиторий расположен на удалённой машине и доступен по протоколу FTP.</p>
+
+<ul>
+<li><a href="instruction_setup.html">Инструкция по установке</a></li>
+<li><a href="Home.html">Назад к оглавлению</a></li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Установка и настройка open-iSCSI</title>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+
+<p>__## Установка и настройка open-iSCSI</p>
+
+<ul>
+<li><a href="instruction_setup.html">Инструкция по установке</a></li>
+<li><a href="Home.html">Назад к оглавлению</a></li>
+</ul>
+
+<p>iSCSI (Internet Small Computer System Interface, малый компьютерный системный интернет интерфейс) – это протокол, который разрешает передавать SCSI команды по сети. <br>Обычно iSCSI реализуется для сетевых дисковых массивов (Storage Area Network – SAN), чтобы позволять серверам иметь доступ к большим объемам дискового пространства.</p>
+<p>Протокол iSCSI считает клиентов инициаторами, а iSCSI сервера – целью. Сервер Debian может быть настроен как в качестве iSCSI инициатора, так и в качестве целевого объекта (сервером).</p>
+<p>Это руководство описывает команды и опции настройки по установке iSCSI инициатора. В данном случае iSCSI сервером является дисковый массив. Для установки пакета open-iscsi необходимы root-права.</p>
+<p>В строке терминала ввести следующее:</p>
+
+<pre><code>&gt;su –
+&gt;[ввести пароль пользователя root]
+&gt;apt install iscsi
+&gt;[подтвердить установку нажав “Y”]
+</code></pre>
+
+<p>Для автоматического подключения к дисковому массиву во время рестарта системы в последующем необходимо отредактировать файл /etc/iscsi/iscsid.conf.</p>
+<p>В строке терминала ввести следующее:</p>
+
+<pre><code>&gt;su –
+&gt;[ввести пароль пользователя root]
+&gt;nano /etc/iscsi/iscsid.conf
+</code></pre>
+
+<p>Необходимо убрать решетку в начале следующих строк: <br>#node.startup = automatic</p>
+<p>Во время первого подключения дискового массива необходимо выполнить обзор устройств, которые могут быть присоединены к системе.</p>
+<p>Такая команда имеет вид:</p>
+
+<pre><code>&gt;sudo iscsiadm –m discovery –t st –p 10.0.0.74</code></pre>
+
+<p>Ответ от целевого объекта имеет вид:</p>
+<p><br> 10.0.0.73:3260,1 iqn.1986-03.com.hp:storage.p2000g3.1251193bd1 <br> 10.0.0.77:3260,2 iqn.1986-03.com.hp:storage.p2000g3.1251193bd1 <br> 10.0.0.74:3260,3 iqn.1986-03.com.hp:storage.p2000g3.1251193bd1 <br> 10.0.0.78:3260,4 iqn.1986-03.com.hp:storage.p2000g3.1251193bd1 <br> 10.0.0.75:3260,5 iqn.1986-03.com.hp:storage.p2000g3.1251193bd1 <br> 10.0.0.79:3260,6 iqn.1986-03.com.hp:storage.p2000g3.1251193bd1 <br> 10.0.0.76:3260,7 iqn.1986-03.com.hp:storage.p2000g3.1251193bd1 <br> 10.0.0.80:3260,8 iqn.1986-03.com.hp:storage.p2000g3.1251193bd1</p>
+<p>Далее необходимо выполнить соединение с iSCSI сервером. <br>В строке терминала ввести следующее:</p>
+
+<pre><code>&gt;iscsiadm -m node -l -T iqn.1986-03.com.hp:storage.p2000g3.1251193bd</code></pre>
+
+<p>Ответ от целевого объекта имеет вид:</p>
+<p><br>Logging in to [iface: default, target: iqn.1986-03.com.hp:storage.p2000g3.1251193bd1, portal:10.0.0.80,3260] (multiple) <br>Logging in to [iface: default, target: iqn.1986-03.com.hp:storage.p2000g3.1251193bd1, portal: 10.0.0.73,3260] (multiple) <br>Logging in to [iface: default, target: iqn.1986-03.com.hp:storage.p2000g3.1251193bd1, portal: 10.0.0.77,3260] (multiple) <br>Logging in to [iface: default, target: iqn.1986-03.com.hp:storage.p2000g3.1251193bd1, portal: 10.0.0.75,3260] (multiple) <br>Logging in to [iface: default, target: iqn.1986-03.com.hp:storage.p2000g3.1251193bd1, portal: 10.0.0.78,3260] (multiple) <br>Logging in to [iface: default, target: iqn.1986-03.com.hp:storage.p2000g3.1251193bd1, portal: 10.0.0.79,3260] (multiple) <br>Logging in to [iface: default, target: iqn.1986-03.com.hp:storage.p2000g3.1251193bd1, portal: 10.0.0.76,3260] (multiple)</p>
+<p>Далее необходимо выполнить проверить с iSCSI сервером. <br>В строке терминала ввести следующее:</p>
+
+<pre><code>&gt;dmesg |grep sd</code></pre>
+
+<p>Ответ от целевого объекта имеет вид:</p>
+<p><br>[1.834848] uhci_hcd 0000:01:04.4: port count misdetected? forcing to 2 ports <br>[2.498210] sd 2:0:0:0: [sda] 286677120 512-byte logical blocks: (146 GB/136 GiB) <br>[2.498379] sd 2:0:0:0: [sda] Write Protect is off <br>[2.498381] sd 2:0:0:0: [sda] Mode Sense: 6b 00 00 08 <br>[2.498430] sd 2:0:0:0: Attached scsi generic sg2 type 0 <br>[2.498495] sd 2:0:0:0: [sda] Write cache: disabled, read cache: enabled, doesn’t support DPO or FUA <br>[2.505413] sda: sda1 sda2 &lt; sda5 &gt; <br>[2.506568] sd 2:0:0:0: [sda] Attached SCSI disk <br>[2.978164] EXT4-fs (sda1): mounted filesystem with ordered data mode. Opts: (null) <br>[7.564476] Adding 50319356k swap on /dev/sda5. Priority:-1 extents:1 across:50319356k FS <br>[7.757359] EXT4-fs (sda1): re-mounted. Opts: errors=remount-ro <br>[16082.928449] sd 3:0:0:10: Attached scsi generic sg4 type 0 <br>[16082.928716] sd 3:0:0:10: [sdb] 1974609280 512-byte logical blocks: (1.01 TB/941 GiB) <br>[16082.929812] sd 3:0:0:10: [sdb] Write Protect is off <br>[16082.929818] sd 3:0:0:10: [sdb] Mode Sense: d7 00 00 08 <br>[16082.930305] sd 3:0:0:10: [sdb] Write cache: enabled, read cache: enabled, doesn’t support DPO or FUA <br>[16082.930401] sd 3:0:0:11: Attached scsi generic sg5 type 0 <br>[16082.934362] sd 3:0:0:11: [sdc] 1974609280 512-byte logical blocks: (1.01 TB/941 GiB) <br>[16082.941884] sd 3:0:0:12: Attached scsi generic sg6 type 0 <br>[16082.943873] sd 3:0:0:11: [sdc] Write Protect is off <br>[16082.943880] sd 3:0:0:11: [sdc] Mode Sense: d7 00 00 08 <br>[16082.946287] sd 3:0:0:12: [sdd] 1974609280 512-byte logical blocks: (1.01 TB/941 GiB) <br>[16082.949063] sd 3:0:0:11: [sdc] Write cache: enabled, read cache: enabled, doesn’t support DPO or FUA <br>[16082.954253] sd 3:0:0:13: Attached scsi generic sg7 type 0 <br>[16082.956102] sd 3:0:0:12: [sdd] Write Protect is off <br>[16082.956106] sd 3:0:0:12: [sdd] Mode Sense: d7 00 00 08 <br>[16082.958553] sd 3:0:0:13: [sde] 1974609280 512-byte logical blocks: (1.01 TB/941 GiB) <br>[16082.962251] sd 3:0:0:12: [sdd] Write cache: enabled, read cache: enabled, doesn’t support DPO or FUA <br>[16082.967098] sd 3:0:0:13: [sde] Write Protect is off <br>[16082.967103] sd 3:0:0:13: [sde] Mode Sense: d7 00 00 08 <br>[16082.967597] sdb: unknown partition table <br>[16082.968237] sd 3:0:0:13: [sde] Write cache: enabled, read cache: enabled, doesn’t support DPO or FUA <br>[16082.969315] sdc: sdc1 <br>[16082.971646] sdd: sdd1 <br>[16082.972977] sd 3:0:0:10: [sdb] Attached SCSI disk <br>[16082.974543] sd 3:0:0:11: [sdc] Attached SCSI disk <br>[16082.975149] sde: sde1 <br>[16082.976287] sd 3:0:0:12: [sdd] Attached SCSI disk <br>[16082.979070] sd 3:0:0:13: [sde] Attached SCSI disk</p>
+<p>В приведенном выводе sdb, sdc, sdd, sde – это iSCSI-диски в дисковом массиве. <br>Следующий шаг – создание разделов на присоединенных дисках.</p>
+<p>В строке терминала ввести следующее:</p>
+
+<pre><code>&gt;fdisk /dev/sdb
+&gt;fdisk /dev/sdc
+&gt;fdisk /dev/sdd
+&gt;fdisk /dev/sde
+</code></pre>
+
+<p>В каждом из них необходимо создать новый раздел, выделить под него все пространство диска, записать таблицу разделов на диск. <br>Для выполнения форматирования файловых систем на полученных дисках необходимо выполнить команды:</p>
+
+<pre><code>&gt;mkfs.ext4 /dev/sdb1
+&gt;mkfs.ext4 /dev/sdc1
+&gt;mkfs.ext4 /dev/sdd1
+&gt;mkfs.ext4 /dev/sde1
+</code></pre>
+
+<p>Необходимо подготовить директории для монтирования файловых систем насервере. <br>В строке терминала ввести следующее:</p>
+
+<pre><code>&gt;mkdir /mnt/st2-vol1
+&gt;mkdir /mnt/st2-vol2
+&gt;mkdir /mnt/st2-vol3
+&gt;mkdir /mnt/st2-vol4
+</code></pre>
+
+<p>Для монтирования полученных файловых систем к серверу необходимо выполнить команды:</p>
+
+<pre><code>&gt;mount -t ext4 /dev/sdb1 -o rw,async,_netdev /mnt/st2-vol1
+&gt;mount -t ext4 /dev/sdb1 -o rw,async,_netdev /mnt/st2-vol2
+&gt;mount -t ext4 /dev/sdb1 -o rw,async,_netdev /mnt/st2-vol3
+&gt;mount -t ext4 /dev/sdb1 -o rw,async,_netdev /mnt/st2-vol4
+</code></pre>
+
+<ul>
+<li><a href="instruction_setup.html">Инструкция по установке</a></li>
+<li><a href="Home.html">Назад к оглавлению</a></li>
+</ul>
+
+</body>
+</html>

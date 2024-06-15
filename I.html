@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Приложение И</title>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+
+<h1 id="приложение-и">Приложение И</h1>
+
+<ul>
+<li><a href="attachments.html">Приложения</a></li>
+<li><a href="Home.html">Назад к оглавлению</a></li>
+</ul>
+
+<h2 id="порядок-действий-при-возникновении-ошибок"><em><strong>Порядок действий при возникновении ошибок</strong></em></h2>
+<table>
+<colgroup>
+<col style="width: 3%" />
+<col style="width: 34%" />
+<col style="width: 61%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>п</th>
+<th>Неисправность</th>
+<th>Необходимые действия</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Не работает контейнер st2</td>
+<td>Зайти в контейнер st2 и удалить конфигурационный файл st2, выполнив команду: docker exec -it st2 rm /var/ekatra/st2/st2.conf Выйти из контейнера и перезапустить st2, выполнив команду: docker restart st2</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Отсутствуют цвета статусов на мнемосхеме</td>
+<td>В Web-приложении Brama на экране проекта EKATRA (п. Б2.7) нажать на кнопку: Update common metadata. Очистить кэш Web-браузера и обновить страницу</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Компиляция зависла на моменте meta:upload_rdf</td>
+<td>Перезапустить контейнер meta. Перезапустить компиляцию</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Ошибка в weave: «IP allocation was seeded by different peers»</td>
+<td>Выполнить команду: weave reset</td>
+</tr>
+</tbody>
+</table>
+
+<ul>
+<li><a href="attachments.html">Приложения</a></li>
+<li><a href="Home.html">Назад к оглавлению</a></li>
+</ul>
+
+</body>
+</html>

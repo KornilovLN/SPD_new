@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Установка и настройка SSHd</title>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+
+<h2 id="установка-и-настройка-sshd">Установка и настройка SSHd</h2>
+
+<ul>
+<li><a href="instruction_setup.html">Инструкция по установке</a></li>
+<li><a href="Home.html">Назад к оглавлению</a></li>
+</ul>
+
+<p>SSH (Secure Shell - «безопасная оболочка») - сетевой протокол прикладного уровня, позволяющий производить удалённое управление операционной системой и туннелированные TCP-соединений.</p>
+<p>Для установки пакета openssh-server необходимы root-права. <br>В строке терминала ввести следующее:</p>
+
+<pre><code>&gt;su –
+&gt;[ввести пароль пользователя root]
+&gt;apt install openssh-server
+&gt;[подтвердить установку нажав “Y”]
+</code></pre>
+
+<p>Настройка программы сохраняется в файле /etc/ssh/sshd_config. <br>Для редактирования файла необходимы root-права. <br>В строке терминала ввести следующее:</p>
+
+<pre><code>&gt;su –
+&gt;[ввести пароль пользователя root]
+&gt;nano /etc/ssh/sshd_config
+</code></pre>
+
+<p>Необходимо убрать решетку в начале следующих строк: <br>#RSAAuthentication yes <br>#PubkeyAuthentication yes</p>
+<p>Сохранить файл с изменениями.</p>
+
+<ul>
+<li><a href="instruction_setup.html">Инструкция по установке</a></li>
+<li><a href="Home.html">Назад к оглавлению</a></li>
+</ul>
+
+</body>
+</html>

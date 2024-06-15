@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Редактирование hostname</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h2 id="редактирование-hostname">Редактирование hostname</h2>
+
+<ul>
+<li><a href="instruction_setup.html">Инструкция по установке</a></li>
+<li><a href="Home.html">Назад к оглавлению</a></li>
+</ul>
+
+<p>Настройка имени сервера сохраняется в файле /etc/hostname. <br>Для редактирования файла необходимы root-права. <br>В строке терминала ввести следующее:</p>
+
+<pre><code>&gt;su –
+&gt;[ввести пароль пользователя root]
+&gt;nano /etc/hostname
+</code></pre>
+
+<p>В текстовом редакторе написать следующие (в зависимости от сервера):</p>
+
+<pre><code>#srs11
+//убрать знак “#” для сервера srs11
+#srs12
+//убрать знак “#” для сервера srs12
+#srs21
+//убрать знак “#” для сервера srs21
+#srs22
+//убрать знак “#” для сервера srs22
+</code></pre>
+
+<p>Сохранить файл с изменениями. <br>Вышеописанные команды выполняют изменение имени сервера в сети.</p>
+
+<ul>
+<li><a href="instruction_setup.html">Инструкция по установке</a></li>
+<li><a href="Home.html">Назад к оглавлению</a></li>
+</ul>
+
+</body>
+</html>

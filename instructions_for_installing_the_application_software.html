@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Инструкция по установке</title>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+
+<h1 id="инструкция-по-установке-прикладного-по">Инструкция по установке прикладного ПО</h1>
+
+<ul>
+<li><a href="introduction.html">Назад к Введению</a></li>
+<li><a href="Home.html">Назад к оглавлению</a></li>
+</ul>
+
+<h2 id="этапы-установки">Этапы установки:</h2>
+<ul>
+<li><strong><em>Установка прикладного ПО</em></strong></li>
+</ul>
+<p>Инсталляционные пакеты прикладного ПО размещаются на ресурсах корпоративной сети sdn.dc.cns.atom и registry.dc.cns.atom. <br>В состав входят следующие пакеты: <br> 1 weave; <br> 2 docker; <br> 3 site.</p>
+<p>Шаг 1 Для загрузки прикладного ПО необходимо обеспечить доступ к ресурсам корпоративной сети sdn.dc.cns.atom и registry.dc.cns.atom.</p>
+<p>Шаг 2 Для установки прикладного ПО необходимо загрузить и запустить инсталляционный скрипт, выполнив следующие команды:</p>
+<pre><code>bash &lt;(curl -s http://sdn.dc.cns.atom/install/sites/znpp/net-install.sh) setup</code></pre>
+<p>При возникновении запроса «Enter path to history database» во время установки необходимо ввести путь, по которому будет храниться база исторических данных: <br><img src="img_setup_software/img4_1.png" alt="Рисунок 4.1 – Запрос «Enter path to history database»" /> <br>Рисунок 4.1 – Запрос «Enter path to history database»</p>
+<p>По окончанию выполнения скриптов установки прикладного ПО (останов выводана экран) необходимо удостовериться в правильности завершения установки. <br>Удостовериться в отсутствии ошибок в конце вывода экрана установки (failed=0).</p>
+<p>Шаг 3 Выполнить команду:</p>
+<pre><code>docker logs -f netra</code></pre>
+<p><br>и ожидать завершения вывода на экран, последней строкой должно быть сообщение «starting done»: <br><img src="img_setup_software/img4_2.png" alt="Рисунок 4.2 – Сообщение «starting done»" /> <br>Рисунок 4.2 – Сообщение «starting done»</p>
+<p>Шаг 4 Выполнить команду:</p>
+<pre><code>&gt;docker ps</code></pre>
+<p>На экран будет выдан список всех загруженных docker-контейнеров. <br>Необходимо убедиться, что в выводе присутствуют все контейнеры групп PODS:ZNPP (п. 2.9) и SYSTEM (п. 2.9). <br>Успешное выполнение шагов 3 и 4 означает, что прикладное ПО загружено, установлено и запущено.</p>
+<ul>
+<li><strong><em>Установка ключей центров сертификации</em></strong></li>
+</ul>
+<p>Для установки доменных ключей и ключей центров сертификации необходимо, что бы они были в архиве certificates.tgz, архив размещен в том-же каталоге что и скрипт net-install.sh.</p>
+<p>Файловая структура архива certificates.tgz: &gt; – <доменное имя>.key - приватная часть ключа (znpp.cns.atom.key); &gt; – <доменное имя>.crt - публичная часть ключа (znpp.cns.atom.crt); &gt; – <имя центра сертификации>-CA.crt - публичная часть ключа центра сертификации (ZNPP-Root-CA.crt).</p>
+<p>Для установки ключей сертификации необходимо удалить registry.master.cns/znpp/traefik, если он присутствует на хосте, выполнив команду:</p>
+<pre><code>docker images | grep &quot; registry.znpp.cns.atom/znpp/traefik &quot; | awk &#39;{printf &quot;%s:%s\n&quot;, $1, $2}&#39;| while read -r line; do docker rmi -f $line ;done;</code></pre>
+<p>Далее необходимо выполнить установку, выполнив команду:</p>
+<pre><code>sudo ./net-install.sh setup</code></pre>
+<p>Или выполнить обновление, если система уже установлена, выполнив команду:</p>
+<pre><code>sudo ./net-install.sh upgrade</code></pre>
+<p>Примечание: <br>Команды для распаковки pkcs12 при помощи openssl:</p>
+<pre><code>openssl pkcs12 -in cert.pfx -nocerts -nodes -passin pass:&lt;пароль&gt; | openssl pkey -out &lt;доменное имя&gt;.key
+openssl pkcs12 -in cert.pfx -clcerts -nokeys -nodes -passin pass:&lt;пароль&gt; | openssl x509 -out &lt;доменное имя&gt;.crt</code></pre>
+<p>Команды для установки корневого сертификата в Debian:</p>
+<pre><code>sudo cp ZNPP-Root-CA.crt /usr/local/share/ca-certificates/
+sudo update-ca-certificates</code></pre>
+<ul>
+<li><strong><em>Обновление прикладного ПО</em></strong></li>
+</ul>
+<p>Для загрузки обновления прикладного ПО необходимо обеспечить доступ к ресурсам корпоративной сети sdn.dc.cns.atom и registry.dc.cns.atom. <br>Для проверки наличия обновлений необходимо перейти на экран About нажав на соответствующую кнопку в нижнем меню Brama: <br><img src="img_setup_software/img4_3.png" alt="Рисунок 4.3 – Кнопка перехода на экран About" /> <br>Рисунок 4.3 – Кнопка перехода на экран About</p>
+<p>Или выбрав пункт About в меню пользователя: <br><img src="img_setup_software/img4_4.png" alt="Рисунок 4.4 – Пункт меню About" /> <br>Рисунок 4.4 – Пункт меню About</p>
+<p>На экране About отображается текущая версия прикладного ПО и полный список изменений: <br><img src="img_setup_software/img4_51.png" alt="Рисунок 4.5 – Экран About" /></p>
+<p>При нажатии на пункт меню Check Update происходит проверка наличия новой версии прикладного ПО. <br>При наличии новой версии на экране будет отображено сообщение «New version is available» и список изменений в обновлении. <br>Также появится кнопка Upgrade (доступна только для пользователей с ролью supervisor): <br><img src="img_setup_software/img4_6.png" alt="Рисунок 4.6 – Экран About при наличии новой версии ПО" /> <br>Рисунок 4.6 – Экран About при наличии новой версии ПО</p>
+<p>Также в правом верхнем углу появляется кнопка, при нажатии на которою можно перейти на экран обновлений: <br><img src="img_setup_software/img4_7.png" alt="Рисунок 4.7 – Отображение наличия обновлений" /> <br>Рисунок 4.7 – Отображение наличия обновлений</p>
+<p>Для обновления прикладного ПО необходимо загрузить и запустить инсталляционный скрипт, выполнив следующие команды:</p>
+<pre><code>bash &lt;(curl -s http://&lt;source_sdn_domain&gt;/install/sites/&lt;source_domain&gt;/net-install.sh) upgrade</code></pre>
+<p>Или нажать на кнопку Upgrade. <br>После завершения обновления, журнал обновления можно посмотреть в меню About, на экране Update Logs: <br><img src="img_setup_software/img4_8.png" alt="Рисунок 4.8 – Экран Update Logs" /></p>
+<p>После выполнения процедуры инсталляции или обновления прикладного ПО, необходимо загрузить ключи по умолчанию в st2 нажав на кнопку Load defaults на экране Keys в меню Workflow и выполнить задачу Upload common metadata в проекте Ekatra.</p>
+
+<ul>
+<li><a href="introduction.html">Назад к Введению</a></li>
+<li><a href="Home.html">Назад к оглавлению</a></li>
+</ul>
+
+</body>
+</html>

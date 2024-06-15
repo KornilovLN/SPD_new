@@ -1,0 +1,91 @@
+/* --- Общие стили для ссылок --------------------------------------- */
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+a:hover {
+    color: #555;
+}
+
+/* --- Верхнее меню ------------------------------------------------- */
+header nav ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+header nav ul li {
+    margin-left: 20px;
+}
+
+header nav ul li a {
+    padding: 10px 15px;
+    background-color: #B0DDDD;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+header nav ul li a:hover {
+    background-color: #8eb6b6;
+    color: #fff;
+}
+
+/* --- Боковое меню ------------------------------------------------- */
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu li {
+    margin-bottom: 10px;
+}
+
+.sidebar-menu a {
+    display: block;
+    padding: 10px;
+    background-color: #cfd3b7;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar-menu a:hover {
+    background-color: #b0b3a2;
+    color: #fff;
+}
+
+.submenu {
+    list-style: none;
+    padding-left: 20px;
+    display: none;
+}
+
+.submenu.open {
+    display: block;
+}
+
+.submenu a {
+    padding: 8px 15px;
+    background-color: #e0e4c9;
+    border-radius: 3px;
+}
+
+.submenu a:hover {
+    background-color: #c0c3a7;
+}
+
+/* --- Основной контейнер ------------------------------------------- */
+.main-content-container {
+    padding: 20px;
+    background-color: #e9e9e9;
+}
+
+.main-content {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+

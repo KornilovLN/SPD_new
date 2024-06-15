@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Установка Firmware bnx2</title>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+
+<h2 id="установка-firmware-bnx2">Установка Firmware bnx2</h2>
+
+<ul>
+<li><a href="instruction_setup.html">Инструкция по установке</a></li>
+<li><a href="Home.html">Назад к оглавлению</a></li>
+</ul>
+
+<p>Для работы сетевых интерфейсов Proliant DL360 G6 под управлением операционной системы Debian необходимо установить прошивку для контроллеров сетевых интерфейсов Broadcom. <br>Загрузить пакет с прошивкой можно с официального репозитория Debian. <br>Ссылка https://packages.debian.org/search?keywords=firmware-bnx2.</p>
+<p>Данный пакет записать на внешний носитель и подключить к Proliant DL360 G6.</p>
+<p>В строке терминала ввести следующее:</p>
+
+<pre><code>&gt;su –
+&gt;[ввести пароль пользователя root]
+&gt;mount /dev/sdc1 /mnt
+&gt;cd /mnt
+&gt;dpkg -i firmware-bnx2_20161130-4_all.deb
+&gt;[подтвердить установку нажав “Y”]</code></pre>
+
+<ul>
+<li><a href="instruction_setup.html">Инструкция по установке</a></li>
+<li><a href="Home.html">Назад к оглавлению</a></li>
+</ul>
+
+</body>
+</html>

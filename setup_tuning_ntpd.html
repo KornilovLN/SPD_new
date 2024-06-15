@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Установка и настройка ntpd</title>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+
+<h2 id="установка-и-настройка-ntpd">Установка и настройка ntpd</h2>
+
+<ul>
+<li><a href="instruction_setup.html">Инструкция по установке</a></li>
+<li><a href="Home.html">Назад к оглавлению</a></li>
+</ul>
+
+<p>ntpd (Network Time Protocol daemon) - программа-демон, которая устанавливает и поддерживает системное время, используется для синхронизации серверами точного времени. <br>Для установки пакета ntpd необходимы root-права. В строке терминала ввести следующее:</p>
+
+<pre><code>&gt;su –
+&gt;[ввести пароль пользователя root]
+&gt;apt install ntpdate
+&gt;[подтвердить установку нажав “Y”]
+</code></pre>
+
+<p>Настройка программы сохраняется в файле /etc/ntp.conf. <br>Для редактирования файла необходимы root-права. <br>В строке терминала ввести следующее:</p>
+
+<pre><code>&gt;su –
+&gt; [ввести пароль пользователя root]
+&gt;nano /etc/ntp.conf
+</code></pre>
+
+<p>В текстовом редакторе заменить источники на следующие:</p>
+
+<pre><code># /etc/ntp.conf, configuration for ntpd; see ntp.conf(5) for help
+
+driftfile /var/lib/ntp/ntp.drift
+
+# Enable this if you want statistics to be logged.
+#statsdir /var/log/ntpstats/
+
+statistics loopstats peerstats clockstats
+filegen loopstats file loopstats type day enable
+filegen peerstats file peerstats type day enable
+filegen clockstats file clockstats type day enable
+
+# You do need to talk to an NTP server or two (or three).
+#server ntp.your-provider.example
+
+# pool.ntp.org maps to about 1000 low-stratum NTP servers. Your server will
+# pick a different set every time it starts up. Please consider joining the
+# pool: &lt;http://www.pool.ntp.org/join.html&gt;
+#pool 0.debian.pool.ntp.org iburst
+#pool 1.debian.pool.ntp.org iburst
+#pool 2.debian.pool.ntp.org iburst
+#pool 3.debian.pool.ntp.org iburst
+server ntp1 iburst // шлюз GES41 энергоблока No1
+
+server ntp2 iburst  // шлюз GES42 энергоблока No2
+server ntp3 iburst  // шлюз GES41 энергоблока No3
+server ntp4 iburst  // шлюз GES42 энергоблока No4
+
+# Access control configuration; see /usr/share/doc/ntp-doc/html/accopt.html for
+# details. The web page &lt;http://support.ntp.org/bin/view/Support/AccessRestrictions&gt;
+# might also be helpful.
+# Note that &quot;restrict&quot; applies to both servers and clients, so a configuration
+# that might be intended to block requests from certain clients could also end
+# up blocking replies from your own upstream servers.
+
+# By default, exchange time with everybody, but don&#39;t allow configuration.
+restrict -4 default kod notrap nomodify nopeer noquery limited
+restrict -6 default kod notrap nomodify nopeer noquery limited
+
+# Local users may interrogate the ntp server more closely.
+restrict 127.0.0.1
+restrict ::1
+
+# Needed for adding pool entries
+restrict source notrap nomodify noquery
+
+# Clients from this (example!) subnet have unlimited access, but only if
+# cryptographically authenticated.
+#restrict 192.168.123.0 mask 255.255.255.0 notrust
+
+# If you want to provide time to your local subnet, change the next line.
+# (Again, the address is an example only.)
+#broadcast 192.168.123.255
+
+# If you want to listen to time broadcasts on your local subnet, de-comment the
+# next lines. Please do this only if you trust everybody on the network!
+#disable auth
+#broadcastclient
+</code></pre>
+
+<p>Сохранить файл с изменениями, в терминале выполнить с следующие команды:</p>
+
+<pre><code>&gt;su –
+&gt;[ввести пароль пользователя root]
+&gt;ntpdate
+</code></pre>
+
+<ul>
+<li><a href="instruction_setup.html">Инструкция по установке</a></li>
+<li><a href="Home.html">Назад к оглавлению</a></li>
+</ul>
+
+</body>
+</html>
